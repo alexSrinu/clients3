@@ -1,0 +1,117 @@
+﻿@model List<Clients.Models.HomeClients>
+
+@{
+    ViewBag.Title = "EditHomePageCounters";
+    Layout = "~/Views/_LayoutPage1.cshtml";
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+}
+
+<h2>EditHomePageCounters</h2>
+
+@using (Html.BeginForm("EditHomePageCounters", "Clients", FormMethod.Post))
+{
+
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    foreach (var item in Model)
+    {
+        <div class="form-group">
+            @Html.LabelFor(model => item.TextEn, "TextEn")
+            @Html.TextBoxFor(model => item.TextEn, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => item.TextEn, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => item.Value, "Value")
+            @Html.TextBoxFor(model => item.Value, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => item.Value, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => item.ImagePath, "ImagePath")
+            @Html.TextBoxFor(model => item.ImagePath, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => item.ImagePath, "", new { @class = "text-danger" })
+        </div>
+
+
+
+
+    }
+
+    <div class="form-group">
+        <input type="submit" value="Edit" class="btn btn-primary" />
+    </div>
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@*@model Clients.Models.HomeClients
+
+    @{
+        ViewBag.Title = "Create";
+        Layout = "~/Views/_LayoutPage1.cshtml";
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+    }
+
+    <h2>Create</h2>
+
+    @using (Html.BeginForm("EditHomePageCounters", "Clients", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TextEn)
+            @Html.TextBoxFor(model => model.TextEn, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.TextEn, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Value)
+            @Html.TextBoxFor(model => model.Value, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Value, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            <label for="file">Upload Image</label>
+            <input type="file" name="file" id="file" class="form-control" />
+            @Html.ValidationMessageFor(model => model.ImagePath, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Edit" class="btn btn-primary" />
+            </div>
+        </div>
+    }*@

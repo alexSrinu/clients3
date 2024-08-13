@@ -1,0 +1,140 @@
+﻿@model List<Clients.Models.HomeClients>
+
+@{
+    ViewBag.Title = "HomePageCounters";
+    Layout = "~/Views/_LayoutPage1.cshtml";
+}
+
+<h2>HomePageCounters</h2>
+<h2>Users List</h2>
+@Html.ActionLink("Create", "Create")
+
+@TempData["Success"] 
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+@*datatable links*@
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<link href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css" rel="stylesheet" type="text/css" />
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name </th>
+            <th>Value</th>
+            <th>ImagePath</th>
+
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+        <tr>
+            <td>@user.TextEn</td>
+            <td>@user.Value</td>
+            <td><img src="~/Images/@user.ImagePath" alt="Image" width="50" height="50" /></td>
+          
+            <td>
+
+
+                <a href="@Url.Action("EditHomePageCounters", new { id = user.Id })" class="btn btn-warning btn-sm" title="Edit">
+                    <i class="bi bi-pencil"></i>
+                </a>
+
+               @* <a href="@Url.Action("DeleteHomePageCounters", "Clients", new { id = user.Id })" onclick="return confirm('Are you sure Delete Home Page Counter ?');" class="btn btn-danger btn-sm">
+                    <i class="bi bi-trash3-fill"></i>
+                </a>
+
+
+              @*  <a href="@Url.Action("DeleteHomePageCounters","ClientsController" , new { id =  user.Id})" onclick="return confirm('Are you sure Delete Home Page Counter ?');" type="button" class="btn btn-sm btn-icon btn-light btn-active-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                    <i class="btn btn-danger bi bi-trash3-fill"></i>*@
+                     <button type="button" class="btn btn-danger bi bi-trash3-fill" onclick="confirmDelete(@user.Id)"></button>
+
+
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    function confirmDelete(Id) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                alert("success")
+
+              
+                $.ajax({
+                    url: '/Clients/DeleteHomePageCounters',
+                    type: 'POST',
+                    data: { Id: Id },
+                    success: function (response) {
+                        alert("success")
+                        Swal.fire('SUCCESS!', 'There was a problem deleting the user.', 'error');
+
+                    },
+                    error: function (xhr, status, error) {
+                        
+                        Swal.fire('Error!', 'There was a problem deleting the user.', 'error');
+                    }
+                });
+            }
+        });
+    }
+    function updateUser(user) {
+        $.ajax({
+            url: '/Apiconsume/UpdateUser',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(user),
+            success: function (response) {
+                // Handle success, maybe refresh the page or show a success message
+                window.location.reload();
+            },
+            error: function (xhr, status, error) {
+                Swal.fire('Error!', 'There was a problem updating the user.', 'error');
+            }
+        });
+    }
+    function OnSuccess(response) {
+        $("#tblCustomers").DataTable(
+            {
+                bLengthChange: true,
+                lengthMenu: [[5, 10, -1], [5, 10, "All"]],
+                bFilter: true,
+                bSort: true,
+                bPaginate: true,
+                data: response,
+                columns: [{ 'data': 'CustomerID' },
+                { 'data': 'ContactName' },
+                { 'data': 'City' },
+                { 'data': 'Country' }]
+            });
+    };
+
+</script>
+
+
+
